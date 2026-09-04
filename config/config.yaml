@@ -1,0 +1,60 @@
+# Example configuration for the OpenTelemetry Collector Extension Template
+# 
+# This file shows how to configure the template extension in the 
+# OpenTelemetry Collector configuration.
+#
+# To use this extension, add it to your collector's configuration:
+#
+# extensions:
+#   template:
+#     endpoint: "http://localhost:8080"
+#     interval_seconds: 30
+#     metadata:
+#       environment: "production"
+#       team: "observability"
+#
+# service:
+#   extensions: [template]
+
+extensions:
+  template:
+    # HTTP endpoint to send heartbeats/data to
+    endpoint: "http://localhost:8080/api/v1/collect"
+    
+    # Interval in seconds for periodic tasks
+    interval_seconds: 30
+    
+    # Additional metadata to include in requests
+    metadata:
+      environment: "development"
+      service: "otelcol-template"
+      version: "0.1.0"
+      team: "observability"
+      region: "us-east-1"
+
+# Full collector configuration example:
+# 
+# receivers:
+#   otlp:
+#     protocols:
+#       grpc:
+#         endpoint: 0.0.0.0:4317
+#       http:
+#         endpoint: 0.0.0.0:4318
+#
+# exporters:
+#   debug:
+#     verbosity: detailed
+#
+# service:
+#   extensions: [template]
+#   pipelines:
+#     traces:
+#       receivers: [otlp]
+#       exporters: [debug]
+#     metrics:
+#       receivers: [otlp]
+#       exporters: [debug]
+#     logs:
+#       receivers: [otlp]
+#       exporters: [debug]

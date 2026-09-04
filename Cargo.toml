@@ -1,0 +1,60 @@
+[package]
+name = "otelcol-extension-template"
+version = "0.1.0"
+edition = "2021"
+description = "Template for OpenTelemetry Collector Extension in Rust (CDYLIB for CGO)"
+license = "Apache-2.0"
+repository = "https://github.com/open-telemetry/opentelemetry-collector-contrib"
+documentation = "https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/extension/otelcol-extension-template"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+name = "otelcol_extension_template"
+
+[[bin]]
+name = "otelcol-extension-template"
+path = "src/main.rs"
+
+[dependencies]
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Configuration
+serde = { version = "1.0", features = ["derive"] }
+serde_yaml = "0.9"
+serde_json = "1.0"
+
+# Error handling
+thiserror = "1.0"
+anyhow = "1.0"
+
+# Async traits
+async-trait = "0.1"
+
+# Async runtime
+tokio = { version = "1.38", features = ["full"] }
+
+# FFI support
+libc = "0.2"
+
+# HTTP client
+reqwest = { version = "0.12", features = ["json", "rustls-tls"] }
+
+# Date/time
+chrono = { version = "0.4", features = ["serde"] }
+
+# Build info
+vergen = { version = "8", features = ["cargo", "build", "rustc"], default-features = false }
+
+[build-dependencies]
+vergen = { version = "8", features = ["cargo", "build", "rustc"], default-features = false }
+
+[profile.release]
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
+
+[profile.dev]
+debug = true

@@ -1,0 +1,22 @@
+# Cargo configuration for the OpenTelemetry Collector Extension Template
+
+[target.aarch64-apple-darwin]
+# Apple Silicon specific settings
+rustflags = [
+  "-C", "link-arg=-undefined",
+  "-C", "link-arg=dynamic_lookup",
+]
+
+[target.x86_64-unknown-linux-gnu]
+# Linux specific settings for optimal compatibility
+rustflags = [
+  "-C", "link-arg=-Wl,--as-needed",
+  "-C", "link-arg=-Wl,-z,relro,-z,now",
+]
+
+[profile.release]
+# Override strip for better debugging
+strip = "debuginfo"
+
+# Optional: Enable link-time optimization across crates
+# lto = "fat"
